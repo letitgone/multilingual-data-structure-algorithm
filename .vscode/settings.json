@@ -57,4 +57,5 @@
     },
     "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
     "python.defaultInterpreterPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
+    "workbench.editor.wrapTabs": true,
 }
