@@ -55,4 +55,6 @@
         "fortran_fixed-form": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "fortran": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
     },
+    "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
+    "python.defaultInterpreterPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
 }
