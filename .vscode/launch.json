@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3"
+        },
+        {
             "type": "java",
             "name": "Launch HelloJava",
             "request": "launch",
