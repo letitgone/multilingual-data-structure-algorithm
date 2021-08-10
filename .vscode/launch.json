@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch HelloJava",
+            "request": "launch",
+            "mainClass": "HelloJava",
+            "projectName": "multilingual-data-structure-algorithm_fab2b8a2"
+        },
+        {
             "name": "g++ - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
