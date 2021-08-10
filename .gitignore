@@ -1,7 +1,8 @@
-.vscode/c_cpp_properties.json
-.vscode/launch.json
-.vscode/settings.json
-.vscode/tasks.json
+# .vscode/c_cpp_properties.json
+# .vscode/launch.json
+# .vscode/settings.json
+# .vscode/tasks.json
+target
 
 # Compiled class file
 *.class
@@ -24,5 +25,3 @@
 *.tar.gz
 *.rar
 *.DS_Store
-*.class
-*.out
