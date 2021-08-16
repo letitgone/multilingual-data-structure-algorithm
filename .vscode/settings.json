@@ -6,7 +6,7 @@
     "code-runner.executorMap": {
         "javascript": "node",
         "java": "cd $dir && javac $fileName -d /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/java/ && cd /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/java/ && java $fileNameWithoutExt",
-        "c": "cd $dir && gcc $fileName -o /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/$fileNameWithoutExt && /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/$fileNameWithoutExt",
+        "c": "cd $dir && gcc $fileName -std=c11 -o /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/$fileNameWithoutExt && /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/$fileNameWithoutExt",
         "cpp": "cd $dir && g++ $fileName -std=c++11 -o /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c++/$fileNameWithoutExt && /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c++/$fileNameWithoutExt",
         "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "php": "php",
