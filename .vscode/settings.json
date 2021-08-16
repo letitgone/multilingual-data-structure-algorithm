@@ -106,5 +106,5 @@
         ".sass": "sass --style expanded",
         ".cu": "cd $dir && nvcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
     },
-    "java.home": "/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home"
+    "java.home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home"
 }
