@@ -5,22 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "type": "java",
+            "name": "Java",
+            "request": "launch",
+            "mainClass": "",
+            "args": "${command:SpecifyProgramArgs}",
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Python",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3"
+            "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
         },
         {
-            "type": "java",
-            "name": "Launch HelloJava",
-            "request": "launch",
-            "mainClass": "HelloJava",
-            "projectName": "multilingual-data-structure-algorithm_fab2b8a2"
-        },
-        {
-            "name": "g++ - Build and debug active file",
+            "name": "C/C++",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -30,9 +33,11 @@
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: g++ build active file"
+            "preLaunchTask": "C/C++: g++ build active file",
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ],
     "python": "${command:python.interpreterPath}"
