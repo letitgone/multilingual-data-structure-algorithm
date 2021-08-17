@@ -5,6 +5,42 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C",
+            "type": "cppdbg",
+            "request": "launch",
+            // "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "/Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/${fileBasenameNoExtension}",
+            "args": [
+                "configs/example.json"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb",
+            "preLaunchTask": "C",
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "C++",
+            "type": "cppdbg",
+            "request": "launch",
+            // "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "/Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c++/${fileBasenameNoExtension}",
+            "args": [
+                "configs/example.json"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb",
+            "preLaunchTask": "C++",
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
             "type": "java",
             "name": "Java",
             "request": "launch",
@@ -19,23 +55,6 @@
             "request": "launch",
             "program": "${file}",
             "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.1_1/bin/python3",
-            "console": "internalConsole",
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "name": "C/C++",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [
-                "configs/example.json"
-            ],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "lldb",
-            "preLaunchTask": "C/C++: g++ build active file",
             "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart"
         }
