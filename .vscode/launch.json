@@ -11,7 +11,7 @@
             // "program": "${fileDirname}/${fileBasenameNoExtension}",
             "program": "/Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/${fileBasenameNoExtension}",
             "args": [
-                "configs/example.json"
+                "hello_c.c"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
