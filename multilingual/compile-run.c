@@ -15,7 +15,7 @@
 
 #define PROJECT_NAME "multilingual-data-structure-algorithm"
 
-// char *search_file(char *target_file, char file_or_dir);
+char *search_file(char *target_file, char *file_dir);
 
 int main(int argc, char *argv[])
 {
@@ -25,24 +25,13 @@ int main(int argc, char *argv[])
 
     if ((access(URL_FILENAME, F_OK) == -1))
     {
-        file = fopen(URL_FILENAME, "w");
+        char *multilingual_url = search_file(PROJECT_NAME, ROOT_DIR);
+        file = fopen(multilingual_url, "w");
         if (file == NULL)
         {
             printf("Open %s error!\n", URL_FILENAME);
         }
-
-        char *target_file;
-
-        struct dirent *ptr;
-
-        DIR *dir = opendir(ROOT_DIR);
-        while ((ptr = readdir(dir)) != NULL)
-        {
-            if (strcmp(ptr->d_name, PROJECT_NAME) == 0)
-            {
-                printf("");
-            }
-        }
+        printf("");
     }
     else
     {
@@ -56,7 +45,30 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-// char *search_file(char *target_file, char file_or_dir)
-// {
-//     fread(target_file,)
-// }
+char *search_file(char *target_file, char *file_dir)
+{
+
+    struct dirent *ptr;
+
+    char *multilingual_url;
+
+    DIR *dir = opendir(file_dir);
+    while ((ptr = readdir(dir)) != NULL)
+    {
+        if (strcmp(ptr->d_name, target_file) == 0)
+        {
+            multilingual_url = file_dir;
+            strcat(multilingual_url, "/");
+            strcat(multilingual_url, target_file);
+            return multilingual_url;
+        }
+        else
+        {
+            multilingual_url = file_dir;
+            strcat(multilingual_url, "/");
+            strcat(multilingual_url, ptr->d_name);
+            return search_file(PROJECT_NAME, multilingual_url);
+        }
+    }
+    return NULL;
+}
