@@ -19,6 +19,12 @@ char *search_file(char *target_file, char *file_dir);
 
 int main(int argc, char *argv[])
 {
+    if (argc != 2)
+    {
+        printf("Arguments error!");
+        return 1;
+    }
+
     FILE *file;
 
     char compiler_url[100];
@@ -37,8 +43,20 @@ int main(int argc, char *argv[])
     {
         file = fopen(URL_FILENAME, "r");
         while (fgets(compiler_url, 100, file) != NULL)
-            ;
+        {
+        }
         printf("URL: %s", compiler_url);
+        if (compiler_url[0] != '\0')
+        {
+            char *file_name = argv[1];
+            char *result_url = search_file(file_name, compiler_url);
+            char *command_cd = strcat("cd ", result_url);
+            system(command_cd);
+            strtok(file_name, ".");
+        }
+        else
+        {
+        }
     }
 
     fclose(file);
