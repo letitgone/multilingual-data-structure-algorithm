@@ -109,6 +109,7 @@
     "java.home": "/Library/Java/JavaVirtualMachines/jdk-11.0.12.jdk/Contents/Home",
     "files.associations": {
         "*.java": "java",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stdio.h": "c"
     }
 }
