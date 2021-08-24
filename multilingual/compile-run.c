@@ -17,12 +17,14 @@
 
 char *search_file(char *target_file, char *file_dir);
 
+char *file_suffix(char *filename);
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
         printf("Arguments error!");
-        return 1;
+        return EXIT_FAILURE;
     }
 
     FILE *file;
@@ -52,7 +54,24 @@ int main(int argc, char *argv[])
             char *result_url = search_file(file_name, compiler_url);
             char *command_cd = strcat("cd ", result_url);
             system(command_cd);
-            strtok(file_name, ".");
+            char *suffix = file_suffix(file_name);
+            if (strcmp(suffix, "c"))
+            {
+            }
+            else if (strcmp(suffix, "cpp"))
+            {
+            }
+            else if (strcmp(suffix, "java"))
+            {
+            }
+            else if (strcmp(suffix, "py"))
+            {
+            }
+            else
+            {
+                printf("Arguments error!");
+                return EXIT_FAILURE;
+            }
         }
         else
         {
@@ -89,4 +108,22 @@ char *search_file(char *target_file, char *file_dir)
         }
     }
     return NULL;
+}
+
+char *file_suffix(char *filename)
+{
+    int length = strlen(filename);
+    printf("length %d", length);
+    char *result = strrchr(filename, '.');
+    int j, k;
+    for (j = k = 0; result[j] != '\0'; j++)
+    {
+        if (result[j] != '.')
+        {
+            result[k++] = result[j];
+        }
+    }
+    result[k] = '\0';
+    printf("res: %s", result);
+    return result;
 }
