@@ -94,9 +94,7 @@ char *search_file(char *target_file, char *file_dir) {
             strcat(multilingual_url, target_file);
             return multilingual_url;
         } else {
-            multilingual_url = file_dir;
-            strcat(multilingual_url, ptr_name);
-            return search_file(PROJECT_NAME, multilingual_url);
+            return search_file(PROJECT_NAME, ss);
         }
     }
     return NULL;
