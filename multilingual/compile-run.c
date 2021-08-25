@@ -92,13 +92,21 @@ char *search_file(char *target_file, char *file_dir)
 
     struct dirent *ptr;
 
-    char *multilingual_url;
+    char *multilingual_url = NULL;
+
+    struct stat st;
 
     DIR *dir = opendir(file_dir);
     while ((ptr = readdir(dir)) != NULL)
     {
         char *ptr_name = ptr->d_name;
         if (strcmp(ptr_name, ".") == 0 || strcmp(ptr_name, "..") == 0)
+        {
+            continue;
+        }
+        strcat(file_dir, ptr_name);
+        stat(file_dir, &st);
+        if (!S_ISDIR(st.st_mode))
         {
             continue;
         }
@@ -136,3 +144,20 @@ char *file_suffix(char *filename)
     printf("res: %s", result);
     return result;
 }
+
+// _Bool is_file(char *filename)
+// {
+    
+//     int result;
+//     result = _stat(filename, &buf);
+//     if (_S_IFDIR & buf.st_mode)
+//     {
+//         printf("folder\n");
+//     }
+//     else if (_S_IFREG & buf.st_mode)
+//     {
+//         printf("file\n");
+//     }
+
+//     return 0;
+// }
