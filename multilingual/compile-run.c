@@ -21,11 +21,11 @@ char *file_suffix(char *filename);
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
-    {
-        printf("Arguments error!");
-        return EXIT_FAILURE;
-    }
+    // if (argc != 2)
+    // {
+    //     printf("Arguments error!");
+    //     return EXIT_FAILURE;
+    // }
 
     FILE *file;
 
@@ -55,17 +55,22 @@ int main(int argc, char *argv[])
             char *command_cd = strcat("cd ", result_url);
             system(command_cd);
             char *suffix = file_suffix(file_name);
+            char *target_path = strcat(compiler_url, "/target");
             if (strcmp(suffix, "c"))
             {
+                char *c_command = "gcc $fileName -std=c11 -o target_path /c/$fileNameWithoutExt";
             }
             else if (strcmp(suffix, "cpp"))
             {
+                char *cpp_command = "";
             }
             else if (strcmp(suffix, "java"))
             {
+                char *java_command = "";
             }
             else if (strcmp(suffix, "py"))
             {
+                char *py_command = "";
             }
             else
             {
@@ -92,18 +97,22 @@ char *search_file(char *target_file, char *file_dir)
     DIR *dir = opendir(file_dir);
     while ((ptr = readdir(dir)) != NULL)
     {
-        if (strcmp(ptr->d_name, target_file) == 0)
+        char *ptr_name = ptr->d_name;
+        if (strcmp(ptr_name, ".") == 0 || strcmp(ptr_name, "..") == 0)
+        {
+            continue;
+        }
+        printf("d_name : %s\n", ptr_name);
+        if (strcmp(ptr_name, target_file) == 0)
         {
             multilingual_url = file_dir;
-            strcat(multilingual_url, "/");
             strcat(multilingual_url, target_file);
             return multilingual_url;
         }
         else
         {
             multilingual_url = file_dir;
-            strcat(multilingual_url, "/");
-            strcat(multilingual_url, ptr->d_name);
+            strcat(multilingual_url, ptr_name);
             return search_file(PROJECT_NAME, multilingual_url);
         }
     }
