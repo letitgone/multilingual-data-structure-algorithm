@@ -19,20 +19,23 @@ char *file_suffix(char *filename);
 
 int main(int argc, char *argv[])
 {
-
     if (argc != 2)
     {
         printf("Arguments error!");
         return EXIT_FAILURE;
     }
-
     FILE *file;
-
     char compiler_url[100];
-
     if ((access(URL_FILENAME, F_OK) == -1))
     {
         char *multilingual_url = search_file(PROJECT_NAME, ROOT_DIR, strlen(ROOT_DIR));
+        if (multilingual_url == NULL)
+        {
+            printf("File error!");
+            return EXIT_FAILURE;
+        }
+        char *url_filename = NULL;
+        scanf("Please enter config file url: ", &url_filename);
         file = fopen(multilingual_url, "w");
         if (file == NULL)
         {
@@ -81,7 +84,6 @@ int main(int argc, char *argv[])
         {
         }
     }
-
     fclose(file);
     return EXIT_SUCCESS;
 }
@@ -103,7 +105,7 @@ char *search_file(char *target_file, char *file_dir, int file_dir_length)
         {
             continue;
         }
-        char ss[1024] = "";
+        char ss[256] = "";
         strcpy(ss, file_dir);
         char *last_char = file_dir + (file_dir_length - 1);
         if (strcmp(last_char, "/") != 0)
