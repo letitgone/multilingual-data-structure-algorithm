@@ -7,7 +7,7 @@
 #include <dirent.h>
 #include <string.h>
 
-#define URL_FILENAME "/Users/zhanggj/Desktop/multilingual.conf"
+#define URL_CONFIG "/tmp/multilingual.conf"
 
 #define ROOT_DIR "/Users/zhanggj/Downloads"
 
@@ -26,16 +26,32 @@ int main(int argc, char *argv[])
     }
     FILE *file;
     char compiler_url[100];
-    if ((access(URL_FILENAME, F_OK) == -1))
+    if ((access(URL_CONFIG, F_OK) == -1))
     {
+        char *project_url;
+        scanf("Please enter project file url: %s\n", project_url);
+        if (project_url == NULL)
+        {
+            printf("Arguments error!");
+            return EXIT_FAILURE;
+        }
+        file = fopen(URL_CONFIG, "a+");
+        if (file == NULL)
+        {
+            printf("Create error!");
+            return EXIT_FAILURE;
+        }
+        else
+        {
+            fprintf(file, "%s", project_url);
+        }
         char *multilingual_url = search_file(PROJECT_NAME, ROOT_DIR, strlen(ROOT_DIR));
         if (multilingual_url == NULL)
         {
             printf("File error!");
             return EXIT_FAILURE;
         }
-        char *url_filename = NULL;
-        scanf("Please enter config file url: ", &url_filename);
+
         file = fopen(multilingual_url, "w");
         if (file == NULL)
         {
@@ -91,16 +107,11 @@ int main(int argc, char *argv[])
 char *search_file(char *target_file, char *file_dir, int file_dir_length)
 {
     struct dirent *ptr;
-    char *multilingual_url = NULL;
     struct stat st;
     DIR *dir = opendir(file_dir);
     while (dir != NULL && (ptr = readdir(dir)) != NULL)
     {
         char *ptr_name = ptr->d_name;
-//        if (strcmp(ptr_name, "authserver") == 0)
-//        {
-//            printf("123");
-//        }
         if (strcmp(ptr_name, ".") == 0 || strcmp(ptr_name, "..") == 0)
         {
             continue;
@@ -143,11 +154,6 @@ char *search_file(char *target_file, char *file_dir, int file_dir_length)
     return NULL;
 }
 
-char *recurse_search()
-{
-
-}
-
 char *file_suffix(char *filename)
 {
     int length = strlen(filename);
@@ -165,20 +171,3 @@ char *file_suffix(char *filename)
     printf("res: %s", result);
     return result;
 }
-
-// _Bool is_file(char *filename)
-// {
-
-//     int result;
-//     result = _stat(filename, &buf);
-//     if (_S_IFDIR & buf.st_mode)
-//     {
-//         printf("folder\n");
-//     }
-//     else if (_S_IFREG & buf.st_mode)
-//     {
-//         printf("file\n");
-//     }
-
-//     return 0;
-// }
