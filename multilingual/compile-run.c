@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     char compiler_url[100];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
-        char *project_url;
+        char project_url[100];
         scanf("Please enter project file url: %s\n", project_url);
-        if (project_url == NULL)
+        if (strcmp(project_url, NULL) == 0)
         {
             printf("Arguments error!");
             return EXIT_FAILURE;
@@ -55,13 +55,13 @@ int main(int argc, char *argv[])
         file = fopen(multilingual_url, "w");
         if (file == NULL)
         {
-            printf("Open %s error!\n", URL_FILENAME);
+            printf("Open %s error!\n", "URL_FILENAME");
         }
         printf("");
     }
     else
     {
-        file = fopen(URL_FILENAME, "r");
+        file = fopen("URL_FILENAME", "r");
         while (fgets(compiler_url, 100, file) != NULL)
         {
         }
