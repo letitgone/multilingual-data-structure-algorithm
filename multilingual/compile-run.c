@@ -9,8 +9,6 @@
 
 #define URL_CONFIG "/tmp/multilingual.conf"
 
-#define ROOT_DIR "/Users/zhanggj/Downloads"
-
 #define PROJECT_NAME "multilingual-data-structure-algorithm"
 
 char *search_file(char *target_file, char *file_dir, int file_dir_length);
@@ -24,17 +22,12 @@ int main(int argc, char *argv[])
         printf("Arguments error!");
         return EXIT_FAILURE;
     }
-    FILE *file;
+    FILE *file = NULL;
     char compiler_url[100];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
         char project_url[100];
-        scanf("Please enter project file url: %s\n", project_url);
-        if (strcmp(project_url, NULL) == 0)
-        {
-            printf("Arguments error!");
-            return EXIT_FAILURE;
-        }
+        scanf("Please enter project file url: %s", project_url);
         file = fopen(URL_CONFIG, "a+");
         if (file == NULL)
         {
@@ -44,8 +37,12 @@ int main(int argc, char *argv[])
         else
         {
             fprintf(file, "%s", project_url);
+            if (fclose(file) != 0)
+            {
+                printf("Error in closing file.\n");
+            }
         }
-        char *multilingual_url = search_file(PROJECT_NAME, ROOT_DIR, strlen(ROOT_DIR));
+        char *multilingual_url = search_file("argc[1]", project_url, strlen(project_url));
         if (multilingual_url == NULL)
         {
             printf("File error!");
@@ -100,7 +97,6 @@ int main(int argc, char *argv[])
         {
         }
     }
-    fclose(file);
     return EXIT_SUCCESS;
 }
 

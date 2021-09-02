@@ -11,3 +11,5 @@ add_executable(string_suffix multilingual/c/string_suffix.c)
 add_executable(hello_c multilingual/c/hello_c.c)
 
 add_executable(create_file multilingual/c/create_file.c)
+
+add_executable(file_print multilingual/c/file_print.c)
