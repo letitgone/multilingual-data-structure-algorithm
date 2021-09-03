@@ -11,7 +11,7 @@
 
 #define PROJECT_NAME "multilingual-data-structure-algorithm"
 
-char *search_file(char *target_file, char *file_dir, int file_dir_length);
+char *search_file(char *target_file, char *file_dir, unsigned long file_dir_length);
 
 char *file_suffix(char *filename);
 
@@ -22,12 +22,16 @@ int main(int argc, char *argv[])
         printf("Arguments error!");
         return EXIT_FAILURE;
     }
+    char *filename = argv[1];
     FILE *file = NULL;
     char compiler_url[100];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
         char project_url[100];
-        scanf("Please enter project file url: %s", project_url);
+        printf("Please enter project file url: ");
+        scanf("%s", project_url);
+
+
         file = fopen(URL_CONFIG, "a+");
         if (file == NULL)
         {
@@ -42,7 +46,7 @@ int main(int argc, char *argv[])
                 printf("Error in closing file.\n");
             }
         }
-        char *multilingual_url = search_file("argc[1]", project_url, strlen(project_url));
+        char *multilingual_url = search_file(filename, project_url, strlen(project_url));
         if (multilingual_url == NULL)
         {
             printf("File error!");
@@ -55,6 +59,7 @@ int main(int argc, char *argv[])
             printf("Open %s error!\n", "URL_FILENAME");
         }
         printf("");
+        return 0;
     }
     else
     {
@@ -100,7 +105,7 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-char *search_file(char *target_file, char *file_dir, int file_dir_length)
+char *search_file(char *target_file, char *file_dir, unsigned long file_dir_length)
 {
     struct dirent *ptr;
     struct stat st;
