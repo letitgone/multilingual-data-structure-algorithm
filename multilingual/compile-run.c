@@ -13,9 +13,11 @@
 
 char *search_file(char *target_file, char *file_dir, unsigned long file_dir_length);
 
-char *file_suffix(char *filename);
+void split(char *src, const char *separator, char **dest, int *num);
 
 unsigned int str_length(const char *str);
+
+char COMMAND_CD[300] = "cd ";
 
 int main(int argc, char *argv[])
 {
@@ -52,26 +54,35 @@ int main(int argc, char *argv[])
             printf("File error!");
             return EXIT_FAILURE;
         }
-        char command_cd[300] = "cd ";
-        strcat(command_cd, file_url);
-        system(command_cd);
-        char *suffix = file_suffix(filename);
+        char *split_name[2] = {};
+        int num = 2;
+        split(filename, ".", split_name, &num);
+        char *suffix = split_name[1];
+        char *name = split_name[0];
         char *target_path = strcat(project_url, "target");
-        if (strcmp(suffix, "c") != 0)
+        if (strcmp(suffix, "c") == 0)
         {
-            char *c_command = "gcc $fileName -std=c11 -o target_path /c/$fileNameWithoutExt";
+            strcat(target_path, "/c");
         }
-        else if (strcmp(suffix, "cpp") != 0)
+        else if (strcmp(suffix, "cpp") == 0)
         {
-            char *cpp_command = "";
+            strcat(target_path, "/cpp");
         }
-        else if (strcmp(suffix, "java") != 0)
+        else if (strcmp(suffix, "java") == 0)
         {
-            char *java_command = "";
+            strcat(target_path, "/java");
+            strcat(COMMAND_CD, file_url);
+            strcat(COMMAND_CD, " && javac ");
+            strcat(COMMAND_CD, file_url);
+            strcat(COMMAND_CD, " -d ");
+            strcat(COMMAND_CD, target_path);
+            strcat(COMMAND_CD, " && java ");
+            strcat(COMMAND_CD, name);
+//            cd file_url && javac file_url -d target_path && java name
         }
-        else if (strcmp(suffix, "py") != 0)
+        else if (strcmp(suffix, "py") == 0)
         {
-            char *py_command = "";
+            strcat(target_path, "/py");
         }
         else
         {
@@ -108,7 +119,7 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
         {
             continue;
         }
-        char url[500];
+        char url[300];
         strcpy(url, file_dir);
         char *last_char = file_dir + (file_dir_length - 1);
         if (strcmp(last_char, "/") != 0)
@@ -128,15 +139,7 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
         }
         else
         {
-            char *result = search_file(target_file, url, strlen(url));
-            if (result == NULL)
-            {
-                continue;
-            }
-            else
-            {
-                return result;
-            }
+            continue;
         }
     }
     if (dir != NULL)
@@ -146,22 +149,22 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
     return NULL;
 }
 
-char *file_suffix(char *filename)
+void split(char *src, const char *separator, char **dest, int *num)
 {
-    int length = strlen(filename);
-    printf("length %d", length);
-    char *result = strrchr(filename, '.');
-    int j, k;
-    for (j = k = 0; result[j] != '\0'; j++)
+    char *pNext;
+    int count = 0;
+    if (src == NULL || strlen(src) == 0)
+        return;
+    if (separator == NULL || strlen(separator) == 0)
+        return;
+    pNext = strtok(src, separator);
+    while (pNext != NULL)
     {
-        if (result[j] != '.')
-        {
-            result[k++] = result[j];
-        }
+        *dest++ = pNext;
+        ++count;
+        pNext = strtok(NULL, separator);
     }
-    result[k] = '\0';
-    printf("res: %s", result);
-    return result;
+    *num = count;
 }
 
 unsigned int str_length(const char *str)
