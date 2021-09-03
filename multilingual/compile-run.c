@@ -15,6 +15,8 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
 
 char *file_suffix(char *filename);
 
+unsigned int str_length(const char *str);
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -24,14 +26,11 @@ int main(int argc, char *argv[])
     }
     char *filename = argv[1];
     FILE *file = NULL;
-    char compiler_url[100];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
         char project_url[100];
         printf("Please enter project file url: ");
         scanf("%s", project_url);
-
-
         file = fopen(URL_CONFIG, "a+");
         if (file == NULL)
         {
@@ -46,61 +45,53 @@ int main(int argc, char *argv[])
                 printf("Error in closing file.\n");
             }
         }
-        char *multilingual_url = search_file(filename, project_url, strlen(project_url));
-        if (multilingual_url == NULL)
+        char *file_url;
+        file_url = search_file(filename, project_url, str_length(project_url));
+        if (file_url == NULL)
         {
             printf("File error!");
             return EXIT_FAILURE;
         }
-
-        file = fopen(multilingual_url, "w");
-        if (file == NULL)
+        char command_cd[300] = "cd ";
+        strcat(command_cd, file_url);
+        system(command_cd);
+        char *suffix = file_suffix(filename);
+        char *target_path = strcat(project_url, "target");
+        if (strcmp(suffix, "c") != 0)
         {
-            printf("Open %s error!\n", "URL_FILENAME");
+            char *c_command = "gcc $fileName -std=c11 -o target_path /c/$fileNameWithoutExt";
         }
-        printf("");
-        return 0;
-    }
-    else
-    {
-        file = fopen("URL_FILENAME", "r");
-        while (fgets(compiler_url, 100, file) != NULL)
+        else if (strcmp(suffix, "cpp") != 0)
         {
+            char *cpp_command = "";
         }
-        printf("URL: %s", compiler_url);
-        if (compiler_url[0] != '\0')
+        else if (strcmp(suffix, "java") != 0)
         {
-            char *file_name = argv[1];
-            char *result_url = search_file(file_name, compiler_url, 1);
-            char *command_cd = strcat("cd ", result_url);
-            system(command_cd);
-            char *suffix = file_suffix(file_name);
-            char *target_path = strcat(compiler_url, "/target");
-            if (strcmp(suffix, "c"))
-            {
-                char *c_command = "gcc $fileName -std=c11 -o target_path /c/$fileNameWithoutExt";
-            }
-            else if (strcmp(suffix, "cpp"))
-            {
-                char *cpp_command = "";
-            }
-            else if (strcmp(suffix, "java"))
-            {
-                char *java_command = "";
-            }
-            else if (strcmp(suffix, "py"))
-            {
-                char *py_command = "";
-            }
-            else
-            {
-                printf("Arguments error!");
-                return EXIT_FAILURE;
-            }
+            char *java_command = "";
+        }
+        else if (strcmp(suffix, "py") != 0)
+        {
+            char *py_command = "";
         }
         else
         {
+            printf("Arguments error!");
+            return EXIT_FAILURE;
         }
+    }
+    else
+    {
+//        file = fopen(URL_CONFIG, "r");
+//        while (fgets(compiler_url, 100, file) != NULL)
+//        {
+//        }
+//        printf("URL: %s", compiler_url);
+//        if (compiler_url[0] != '\0')
+//        {
+//        }
+//        else
+//        {
+//        }
     }
     return EXIT_SUCCESS;
 }
@@ -117,27 +108,27 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
         {
             continue;
         }
-        char ss[256] = "";
-        strcpy(ss, file_dir);
+        char url[500];
+        strcpy(url, file_dir);
         char *last_char = file_dir + (file_dir_length - 1);
         if (strcmp(last_char, "/") != 0)
         {
-            strcat(ss, "/");
+            strcat(url, "/");
         }
-        strcat(ss, ptr_name);
-        stat(ss, &st);
-        if (!S_ISDIR(st.st_mode))
+        strcat(url, ptr_name);
+        stat(url, &st);
+        if (S_ISDIR(st.st_mode))
         {
-            continue;
+            search_file(target_file, url, strlen(url));
         }
         printf("d_name : %s\n", ptr_name);
         if (strcmp(ptr_name, target_file) == 0)
         {
-            return (char *) ss;
+            return url;
         }
         else
         {
-            char *result = search_file(PROJECT_NAME, ss, 1);
+            char *result = search_file(target_file, url, strlen(url));
             if (result == NULL)
             {
                 continue;
@@ -171,4 +162,14 @@ char *file_suffix(char *filename)
     result[k] = '\0';
     printf("res: %s", result);
     return result;
+}
+
+unsigned int str_length(const char *str)
+{
+    const char *start = str;
+    while (*str)
+    {
+        str++;
+    }
+    return str - start;
 }
