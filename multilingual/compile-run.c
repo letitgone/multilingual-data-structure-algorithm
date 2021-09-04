@@ -21,6 +21,8 @@ unsigned int str_length(const char *str);
 
 void str_copy(char *p1, char *p2);
 
+void create_target(char *project_url);
+
 char COMMAND_CD[600] = "cd ";
 
 char FULL_URL[300];
@@ -70,6 +72,7 @@ int main(int argc, char *argv[])
             project_url[len] = '\0';
         }
     }
+    create_target(project_url);
     search_file(filename, project_url, str_length(project_url));
     if (FULL_URL[0] == '\0')
     {
@@ -253,4 +256,24 @@ void str_copy(char *p1, char *p2)
         p2++;
     }
     *p1 = '\0';
+}
+
+void create_target(char *project_url)
+{
+    char base1[300] = "";
+    char base2[300] = "";
+    char base3[300] = "";
+    char base4[300] = "";
+    str_copy(base4, project_url);
+    strcat(base4, "/target");
+    mkdir(base4, 0777);
+    str_copy(base1, base4);
+    str_copy(base2, base4);
+    str_copy(base3, base4);
+    strcat(base1, "/java");
+    strcat(base2, "/c");
+    strcat(base3, "/cpp");
+    mkdir(base1, 0777);
+    mkdir(base2, 0777);
+    mkdir(base3, 0777);
 }
