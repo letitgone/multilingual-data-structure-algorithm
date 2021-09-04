@@ -12,8 +12,8 @@ int main(void)
 
 char *file_suffix(char *filename)
 {
-    int length = strlen(filename);
-    printf("length %d", length);
+    unsigned long length = strlen(filename);
+    printf("length %lu", length);
     char *result = strrchr(filename, '.');
     int j, k;
     for (j = k = 0; result[j] != '\0'; j++)
