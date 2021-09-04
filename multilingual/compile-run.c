@@ -9,15 +9,23 @@
 
 #define URL_CONFIG "/tmp/multilingual.conf"
 
-#define PROJECT_NAME "multilingual-data-structure-algorithm"
+//#define PROJECT_NAME "multilingual-data-structure-algorithm"
 
-char *search_file(char *target_file, char *file_dir, unsigned long file_dir_length);
+#define MAX_LINE 1024
+
+void search_file(char *target_file, char *file_dir, unsigned long file_dir_length);
 
 void split(char *src, const char *separator, char **dest, int *num);
 
 unsigned int str_length(const char *str);
 
-char COMMAND_CD[300] = "cd ";
+void str_copy(char *p1, char *p2);
+
+char COMMAND_CD[600] = "cd ";
+
+char FULL_URL[300];
+
+char CD_URL[300];
 
 int main(int argc, char *argv[])
 {
@@ -28,9 +36,9 @@ int main(int argc, char *argv[])
     }
     char *filename = argv[1];
     FILE *file = NULL;
+    char project_url[MAX_LINE];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
-        char project_url[100];
         printf("Please enter project file url: ");
         scanf("%s", project_url);
         file = fopen(URL_CONFIG, "a+");
@@ -47,73 +55,134 @@ int main(int argc, char *argv[])
                 printf("Error in closing file.\n");
             }
         }
-        char *file_url;
-        file_url = search_file(filename, project_url, str_length(project_url));
-        if (file_url == NULL)
+    }
+    else
+    {
+        if ((file = fopen(URL_CONFIG, "r")) == NULL)
         {
             printf("File error!");
             return EXIT_FAILURE;
         }
-        char *split_name[2] = {};
-        int num = 2;
-        split(filename, ".", split_name, &num);
-        char *suffix = split_name[1];
-        char *name = split_name[0];
-        char *target_path = strcat(project_url, "target");
-        if (strcmp(suffix, "c") == 0)
+        unsigned long len;
+        while (fgets(project_url, MAX_LINE, file) != NULL)
         {
-            strcat(target_path, "/c");
+            len = strlen(project_url);
+            project_url[len] = '\0';
         }
-        else if (strcmp(suffix, "cpp") == 0)
-        {
-            strcat(target_path, "/cpp");
-        }
-        else if (strcmp(suffix, "java") == 0)
-        {
-            strcat(target_path, "/java");
-            strcat(COMMAND_CD, file_url);
-            strcat(COMMAND_CD, " && javac ");
-            strcat(COMMAND_CD, file_url);
-            strcat(COMMAND_CD, " -d ");
-            strcat(COMMAND_CD, target_path);
-            strcat(COMMAND_CD, " && java ");
-            strcat(COMMAND_CD, name);
-//            cd file_url && javac file_url -d target_path && java name
-        }
-        else if (strcmp(suffix, "py") == 0)
-        {
-            strcat(target_path, "/py");
-        }
-        else
-        {
-            printf("Arguments error!");
-            return EXIT_FAILURE;
-        }
+    }
+    search_file(filename, project_url, str_length(project_url));
+    if (FULL_URL[0] == '\0')
+    {
+        printf("File error!");
+        return EXIT_FAILURE;
+    }
+    char *split_name[2] = {};
+    int num = 2;
+    split(filename, ".", split_name, &num);
+    char *suffix = split_name[1];
+    char *name = split_name[0];
+    char *target_path = strcat(project_url, "target");
+    if (strcmp(suffix, "c") == 0)
+    {
+        /**
+         * cd /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/multilingual/c &&
+         * gcc hello_c.c -std=c11 -o /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/hello_c &&
+         * /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/c/hello_c
+         */
+        strcat(target_path, "/c");
+        strcat(COMMAND_CD, CD_URL);
+        strcat(COMMAND_CD, " && gcc ");
+        strcat(COMMAND_CD, filename);
+        strcat(COMMAND_CD, ".");
+        strcat(COMMAND_CD, suffix);
+        strcat(COMMAND_CD, " -std=c11 -o ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, "/");
+        strcat(COMMAND_CD, name);
+        strcat(COMMAND_CD, " && ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, "/");
+        strcat(COMMAND_CD, name);
+        system(COMMAND_CD);
+    }
+    else if (strcmp(suffix, "cpp") == 0)
+    {
+        /**
+         * cd /Users/zhanggj/Downloads/CLionProjects/multilingual-data-structure-algorithm/multilingual/cpp &&
+         * g++ hello_c++.cpp -std=c++11 -o /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/cpp/hello_c++ &&
+         * /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/cpp/hello_c++
+         */
+        strcat(target_path, "/cpp");
+        strcat(COMMAND_CD, CD_URL);
+        strcat(COMMAND_CD, " && g++ ");
+        strcat(COMMAND_CD, filename);
+        strcat(COMMAND_CD, ".");
+        strcat(COMMAND_CD, suffix);
+        strcat(COMMAND_CD, " -std=c++11 -o ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, "/");
+        strcat(COMMAND_CD, name);
+        strcat(COMMAND_CD, " && ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, "/");
+        strcat(COMMAND_CD, name);
+        system(COMMAND_CD);
+    }
+    else if (strcmp(suffix, "java") == 0)
+    {
+        /**
+         * cd /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/data_structure/array &&
+         * javac /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/data_structure/array/Array.java
+         * -d /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/java &&
+         * cd /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/target/java &&
+         * java Array
+         */
+        strcat(target_path, "/java");
+        strcat(COMMAND_CD, CD_URL);
+        strcat(COMMAND_CD, " && javac ");
+        strcat(COMMAND_CD, FULL_URL);
+        strcat(COMMAND_CD, " -d ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, " && cd ");
+        strcat(COMMAND_CD, target_path);
+        strcat(COMMAND_CD, " && java ");
+        strcat(COMMAND_CD, name);
+        system(COMMAND_CD);
+    }
+    else if (strcmp(suffix, "py") == 0)
+    {
+        /**
+         * cd /Users/zhanggj/Downloads/CLionProjects/multilingual-data-structure-algorithm/multilingual/python &&
+         * python3 hello_python.py
+         */
+        char *s = argv[1];
+        strcat(target_path, "/py");
+        strcat(COMMAND_CD, CD_URL);
+        strcat(COMMAND_CD, " && python3 ");
+        strcat(COMMAND_CD, filename);
+        strcat(COMMAND_CD, ".");
+        strcat(COMMAND_CD, suffix);
+        system(COMMAND_CD);
     }
     else
     {
-//        file = fopen(URL_CONFIG, "r");
-//        while (fgets(compiler_url, 100, file) != NULL)
-//        {
-//        }
-//        printf("URL: %s", compiler_url);
-//        if (compiler_url[0] != '\0')
-//        {
-//        }
-//        else
-//        {
-//        }
+        printf("Arguments error!");
+        return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
 
-char *search_file(char *target_file, char *file_dir, unsigned long file_dir_length)
+void search_file(char *target_file, char *file_dir, unsigned long file_dir_length)
 {
     struct dirent *ptr;
     struct stat st;
     DIR *dir = opendir(file_dir);
     while (dir != NULL && (ptr = readdir(dir)) != NULL)
     {
+        if (FULL_URL[0] != '\0')
+        {
+            break;
+        }
         char *ptr_name = ptr->d_name;
         if (strcmp(ptr_name, ".") == 0 || strcmp(ptr_name, "..") == 0)
         {
@@ -132,21 +201,19 @@ char *search_file(char *target_file, char *file_dir, unsigned long file_dir_leng
         {
             search_file(target_file, url, strlen(url));
         }
-        printf("d_name : %s\n", ptr_name);
-        if (strcmp(ptr_name, target_file) == 0)
-        {
-            return url;
-        }
         else
         {
-            continue;
+            if (strcmp(ptr_name, target_file) == 0)
+            {
+                str_copy(FULL_URL, url);
+                str_copy(CD_URL, file_dir);
+            }
         }
     }
     if (dir != NULL)
     {
         closedir(dir);
     }
-    return NULL;
 }
 
 void split(char *src, const char *separator, char **dest, int *num)
@@ -175,4 +242,15 @@ unsigned int str_length(const char *str)
         str++;
     }
     return str - start;
+}
+
+void str_copy(char *p1, char *p2)
+{
+    while (*p2 != '\0')
+    {
+        *p1 = *p2;
+        p1++;
+        p2++;
+    }
+    *p1 = '\0';
 }
