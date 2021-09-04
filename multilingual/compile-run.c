@@ -41,7 +41,8 @@ int main(int argc, char *argv[])
     char project_url[MAX_LINE];
     if ((access(URL_CONFIG, F_OK) == -1))
     {
-        printf("Please enter project file url: ");
+        printf("Please enter project file url: \n");
+		printf("like this:/home/projects/multilingual-data-structure-algorithm/\n or /Users/zhanggj/Downloads/vscode-projects/multilingual-data-structure-algorithm/\n");
         scanf("%s", project_url);
         file = fopen(URL_CONFIG, "a+");
         if (file == NULL)
